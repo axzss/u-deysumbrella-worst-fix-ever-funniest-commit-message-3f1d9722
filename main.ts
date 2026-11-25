@@ -21,6 +21,11 @@ import { join } from "node:path";
 const entry =
   "fix: infinite loop by adding a second one, for symmetry";
 
+// Gate self-check: the scorer requires 1-100 UTF-8 chars, not only whitespace.
+if (entry.length < 1 || entry.length > 100 || !entry.trim()) {
+  throw new Error("entry must be 1-100 characters");
+}
+
 const outDir = process.env.MAKEFUN_OUTPUT_DIR || ".";
 mkdirSync(outDir, { recursive: true });
 writeFileSync(join(outDir, "entry.txt"), entry, "utf8");
